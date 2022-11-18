@@ -1,0 +1,12 @@
+[package]
+name = "zk-calculator"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# halo2 proof crate, `dev-graph` for graphing the circuit
+halo2_proofs = { version = "0.2.0", features = ["dev-graph"] }
+# plotting crate for graphing the circuit
+plotters = { version = "0.3.4" }
