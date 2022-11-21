@@ -62,6 +62,10 @@ impl<F: FieldExt> SubChip<F> {
         a: Column<Advice>,
         b: Column<Advice>,
     ) -> <Self as Chip<F>>::Config {
+        // enable equality on columns
+        meta.enable_equality(a);
+        meta.enable_equality(b);
+
         // get selector
         let sel_sub = meta.selector();
 

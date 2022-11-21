@@ -11,20 +11,14 @@ use crate::{
         mul::MulInstructions,
         sub::SubInstructions,
     },
-    parser::Operator
+    zk_calculator::Operator
 };
 
 /// Calculator circuit definition.
-struct CalculatorCircuit<F: FieldExt> {
-    a: Value<F>,
-    b: Value<F>,
-    operator: Operator
-}
-
-impl<F: FieldExt> CalculatorCircuit<F> {
-    fn new(a: Value<F>, b: Value<F>, operator: Operator) -> Self {
-        Self { a, b, operator }
-    }
+pub struct CalculatorCircuit<F: FieldExt> {
+    pub a: Value<F>,
+    pub b: Value<F>,
+    pub operator: Operator,
 }
 
 /// Calculator circuit implementation.
@@ -71,5 +65,86 @@ impl<F: FieldExt> Circuit<F> for CalculatorCircuit<F> {
         }?;
 
         arithmetic_chip.expose_public(layouter.namespace(|| "expose c"), c, 0)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use halo2_proofs::{dev::MockProver, pasta::Fp};
+
+    #[test]
+    fn test_add() {
+        let k = 4;
+
+        let a = Fp::from(2);
+        let b = Fp::from(3);
+        let c = a + b;
+
+        let circuit = CalculatorCircuit {
+            operator: Operator::Add,
+            a: Value::known(a),
+            b: Value::known(b),
+        };
+
+        let mut public_inputs = vec![c];
+
+        let prover = MockProver::run(k, &circuit, vec![public_inputs.clone()]).unwrap();
+        assert_eq!(prover.verify(), Ok(()));
+
+        public_inputs[0] += Fp::one();
+
+        let prover = MockProver::run(k, &circuit, vec![public_inputs]).unwrap();
+        assert!(prover.verify().is_err());
+    }
+
+    #[test]
+    fn test_mul() {
+        let k = 4;
+
+        let a = Fp::from(2);
+        let b = Fp::from(3);
+        let c = a * b;
+
+        let circuit = CalculatorCircuit {
+            operator: Operator::Mul,
+            a: Value::known(a),
+            b: Value::known(b),
+        };
+
+        let mut public_inputs = vec![c];
+
+        let prover = MockProver::run(k, &circuit, vec![public_inputs.clone()]).unwrap();
+        assert_eq!(prover.verify(), Ok(()));
+
+        public_inputs[0] += Fp::one();
+
+        let prover = MockProver::run(k, &circuit, vec![public_inputs]).unwrap();
+        assert!(prover.verify().is_err());
+    }
+
+    #[test]
+    fn test_sub() {
+        let k = 4;
+
+        let a = Fp::from(2);
+        let b = Fp::from(3);
+        let c = a - b;
+
+        let circuit = CalculatorCircuit {
+            operator: Operator::Sub,
+            a: Value::known(a),
+            b: Value::known(b),
+        };
+
+        let mut public_inputs = vec![c];
+
+        let prover = MockProver::run(k, &circuit, vec![public_inputs.clone()]).unwrap();
+        assert_eq!(prover.verify(), Ok(()));
+
+        public_inputs[0] += Fp::one();
+
+        let prover = MockProver::run(k, &circuit, vec![public_inputs]).unwrap();
+        assert!(prover.verify().is_err());
     }
 }

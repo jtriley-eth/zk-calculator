@@ -44,6 +44,10 @@ pub trait ArithmeticInstructions<F: FieldExt>:
 /// Top-level arithmetic chip configuration.
 /// Derived during `Chip::configure`.
 #[derive(Clone, Debug)]
+// note dead code is only allowed because of an issue with reading `b` of the
+// config. no docs or examples i have seen seem to address it.. so:
+// TODO: resolve whaterver is happening here.
+#[allow(dead_code)]
 pub struct ArithmeticConfig {
     /// Advice column for `input_a` and `output`.
     a: Column<Advice>,

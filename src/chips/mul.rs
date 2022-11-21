@@ -65,6 +65,10 @@ impl<F: FieldExt> MulChip<F> {
         a: Column<Advice>,
         b: Column<Advice>,
     ) -> <Self as Chip<F>>::Config {
+        // enable equality on columns
+        meta.enable_equality(a);
+        meta.enable_equality(b);
+
         // get selector
         let sel_mul = meta.selector();
 
@@ -145,7 +149,7 @@ impl<F: FieldExt> MulInstructions<F> for MulChip<F> {
                 b.0.copy_advice(|| "rhs", &mut region, config.b, 0)?;
 
                 // multiply the two values in columns a and b at offset zero
-                let c = a.0.value().copied() + b.0.value();
+                let c = a.0.value().copied() * b.0.value();
 
                 // mutate the region and return
                 region

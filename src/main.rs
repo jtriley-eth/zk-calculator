@@ -1,7 +1,10 @@
 mod chips;
-mod parser;
 mod calculator_circuit;
+mod zk_calculator;
+mod errors;
+
+use zk_calculator::ZkCalculator;
 
 fn main() {
-    println!("Hello, world!");
+    ZkCalculator::new().run();
 }
