@@ -167,7 +167,7 @@ impl<F: FieldExt> ArithmeticInstructions<F> for ArithmeticChip<F> {
         let config = self.config();
 
         // constrain the `num` to equal instance column at a given row, publicly
-        // exposing the number as public
+        // exposing the number
         layouter.constrain_instance(num.0.cell(), config.instance, row)
     }
 }

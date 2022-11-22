@@ -14,19 +14,10 @@ Using halo2 crate to create basic calculator logic.
 > NOTE: this only uses the Halo2 MockProver. It asserts circuit correctness, but
 > keygen and such is synthetic.
 
-## Circuit Design
+## Chip Layout
 
-```
-circuit: calculator_circuit:
-    chip: arithmetic_chip
-        chip: add_chip
-        chip: sub_chip
-        chip: mul_chip
-```
+<img top="100" src="./doc/arithmetic_chip.png">
 
-add, sub, and mul chips implement gates and layouts
+## Circuit Architecture
 
-arithmetic chip implements api to interface with add, sub, and mul chips
-
-caclulator circuit takes inputs, operator, output, and computes the proof via
-the arithmetic chip
+<img top="100" src="./doc/circuit.png">
