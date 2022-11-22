@@ -12,10 +12,6 @@ use crate::chips::{
     sub::{SubChip, SubConfig, SubInstructions},
 };
 
-/// Numeric variable type. Imported into each chip's implementation.
-#[derive(Clone)]
-pub struct Number<F: FieldExt>(pub AssignedCell<F, F>);
-
 /// Top-level arithmetic instruction set.
 pub trait ArithmeticInstructions<F: FieldExt>:
     AddInstructions<F> + MulInstructions<F> + SubInstructions<F>
@@ -38,6 +34,10 @@ pub trait ArithmeticInstructions<F: FieldExt>:
         row: usize,
     ) -> Result<(), Error>;
 }
+
+/// Numeric variable type. Imported into each chip's implementation.
+#[derive(Clone)]
+pub struct Number<F: FieldExt>(pub AssignedCell<F, F>);
 
 /// Top-level arithmetic chip configuration.
 /// Derived during `Chip::configure`.
