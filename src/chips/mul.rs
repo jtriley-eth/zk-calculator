@@ -51,7 +51,7 @@ impl<F: FieldExt> MulChip<F> {
     /// Construct MulChip and return.
     pub fn construct(
         config: <Self as Chip<F>>::Config,
-        _loaded: <Self as Chip<F>>::Loaded
+        _loaded: <Self as Chip<F>>::Loaded,
     ) -> Self {
         Self {
             config,
@@ -91,7 +91,7 @@ impl<F: FieldExt> MulChip<F> {
                 // if `sel_mul == 0`, then lhs, rhs and out are not constrained.
                 // if `sel_mul != 0`, then `lhs * rhs = out` is contrained.
                 vec![sel_mul * (lhs * rhs - out)]
-            }
+            },
         );
 
         // return config
@@ -158,7 +158,7 @@ impl<F: FieldExt> MulInstructions<F> for MulChip<F> {
                     .assign_advice(|| "lhs * rhs", config.a, 1, || c)
                     // map the result to `Number`
                     .map(Number)
-            }
+            },
         )
     }
 }

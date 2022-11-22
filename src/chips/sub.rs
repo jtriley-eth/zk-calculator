@@ -49,7 +49,10 @@ pub struct SubChip<F: FieldExt> {
 /// Subtraction chip implementation.
 impl<F: FieldExt> SubChip<F> {
     /// Construct SubChip and return.
-    pub fn construct(config: <Self as Chip<F>>::Config, _loaded: <Self as Chip<F>>::Loaded) -> Self {
+    pub fn construct(
+        config: <Self as Chip<F>>::Config,
+        _loaded: <Self as Chip<F>>::Loaded,
+    ) -> Self {
         Self {
             config,
             _marker: PhantomData,
@@ -88,7 +91,7 @@ impl<F: FieldExt> SubChip<F> {
                 // if `sel_sub == 0`, then lhs, rhs and out are not constrained.
                 // if `sel_sub != 0`, then `lhs - rhs = out` is contrained.
                 vec![sel_sub * (lhs - rhs - out)]
-            }
+            },
         );
 
         // return config
@@ -97,7 +100,7 @@ impl<F: FieldExt> SubChip<F> {
 }
 
 /// Halo2 Chip implementation for SubChip.
-impl <F: FieldExt> Chip<F> for SubChip<F> {
+impl<F: FieldExt> Chip<F> for SubChip<F> {
     /// Subtraction configuration.
     type Config = SubConfig;
     /// Loaded data.
@@ -157,7 +160,7 @@ impl<F: FieldExt> SubInstructions<F> for SubChip<F> {
                     .assign_advice(|| "lhs - rhs", config.a, 1, || c)
                     // map result to `Number`
                     .map(Number)
-            }
+            },
         )
     }
 }

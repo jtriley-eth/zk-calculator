@@ -1,9 +1,6 @@
 use std::fmt;
 
-use halo2_proofs::{
-    dev::VerifyFailure,
-    plonk::Error
-};
+use halo2_proofs::{dev::VerifyFailure, plonk::Error};
 
 /// Parser Errors.
 pub enum ParserError {
@@ -21,13 +18,17 @@ pub enum ParserError {
 impl fmt::Debug for ParserError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            ParserError::InvalidOperator =>
-                write!(f, "invalid operator. valid operators include `+`, `-`, and `*`."),
+            ParserError::InvalidOperator => write!(
+                f,
+                "invalid operator. valid operators include `+`, `-`, and `*`."
+            ),
             ParserError::InvalidOperand => write!(f, "invalid operand, operand must be numeric"),
-            ParserError::TooManyInputs =>
-                write!(f, "too many inputs, valid format is `a operator b`"),
-            ParserError::NotEnoughInputs =>
-                write!(f, "not enough inputs, valid format is `a operator b`"),
+            ParserError::TooManyInputs => {
+                write!(f, "too many inputs, valid format is `a operator b`")
+            }
+            ParserError::NotEnoughInputs => {
+                write!(f, "not enough inputs, valid format is `a operator b`")
+            }
         }
     }
 }
@@ -46,12 +47,15 @@ pub enum CircuitError {
 impl fmt::Debug for CircuitError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            CircuitError::ProverError(prover_error) =>
-                write!(f, "prover error in circuit: {}", prover_error),
-            CircuitError::VerifierError(verifier_error) =>
-                write!(f, "verifier error in circuit: {:#?}", verifier_error),
-            CircuitError::NoOperation =>
-                write!(f, "no operation is set (this should never happen."),
+            CircuitError::ProverError(prover_error) => {
+                write!(f, "prover error in circuit: {}", prover_error)
+            }
+            CircuitError::VerifierError(verifier_error) => {
+                write!(f, "verifier error in circuit: {:#?}", verifier_error)
+            }
+            CircuitError::NoOperation => {
+                write!(f, "no operation is set (this should never happen.")
+            }
         }
     }
 }

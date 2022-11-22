@@ -1,7 +1,7 @@
-mod chips;
 mod calculator_circuit;
-mod zk_calculator;
+mod chips;
 mod errors;
+mod zk_calculator;
 
 use zk_calculator::ZkCalculator;
 

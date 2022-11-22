@@ -1,14 +1,10 @@
 use std::io;
 
-use halo2_proofs::{
-    circuit::Value,
-    dev::{MockProver},
-    pasta::Fp,
-};
+use halo2_proofs::{circuit::Value, dev::MockProver, pasta::Fp};
 
 use crate::{
     calculator_circuit::CalculatorCircuit,
-    errors::{ParserError, CircuitError},
+    errors::{CircuitError, ParserError},
 };
 
 /// Valid operators for the ZkCalculator.
@@ -52,7 +48,7 @@ impl FromToken<Operand, ParserError> for Operand {
     fn from_token(token: &str) -> Result<Operand, ParserError> {
         match token.parse::<Operand>() {
             Ok(operand) => Ok(operand),
-            Err(_) => Err(ParserError::InvalidOperand)
+            Err(_) => Err(ParserError::InvalidOperand),
         }
     }
 }
@@ -127,7 +123,7 @@ impl ZkCalculator {
         // if there are more tokens remaining, something went wrong, so we
         // bubble up an error about it
         if tokens.next().is_some() {
-            return Err(ParserError::TooManyInputs)
+            return Err(ParserError::TooManyInputs);
         }
 
         // mutate the ZkCalculator
@@ -173,7 +169,7 @@ impl ZkCalculator {
         // run the mock prover and bubble up any errors
         let prover = match MockProver::run(k, &circuit, vec![public_inputs.clone()]) {
             Ok(prover_run) => prover_run,
-            Err(prover_error) => return Err(CircuitError::ProverError(prover_error))
+            Err(prover_error) => return Err(CircuitError::ProverError(prover_error)),
         };
 
         // verify the proof and bubble up any errors

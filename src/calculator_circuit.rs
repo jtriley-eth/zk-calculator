@@ -6,12 +6,12 @@ use halo2_proofs::{
 
 use crate::{
     chips::{
-        arithmetic::{ArithmeticChip, ArithmeticConfig, ArithmeticInstructions},
         add::AddInstructions,
+        arithmetic::{ArithmeticChip, ArithmeticConfig, ArithmeticInstructions},
         mul::MulInstructions,
         sub::SubInstructions,
     },
-    zk_calculator::Operator
+    zk_calculator::Operator,
 };
 
 /// Calculator circuit definition.

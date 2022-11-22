@@ -7,9 +7,9 @@ use halo2_proofs::{
 };
 
 use crate::chips::{
-    add::{AddInstructions, AddConfig, AddChip},
-    mul::{MulInstructions, MulConfig, MulChip},
-    sub::{SubInstructions, SubConfig, SubChip},
+    add::{AddChip, AddConfig, AddInstructions},
+    mul::{MulChip, MulConfig, MulInstructions},
+    sub::{SubChip, SubConfig, SubInstructions},
 };
 
 /// Numeric variable type. Imported into each chip's implementation.
@@ -18,9 +18,7 @@ pub struct Number<F: FieldExt>(pub AssignedCell<F, F>);
 
 /// Top-level arithmetic instruction set.
 pub trait ArithmeticInstructions<F: FieldExt>:
-    AddInstructions<F> +
-    MulInstructions<F> +
-    SubInstructions<F>
+    AddInstructions<F> + MulInstructions<F> + SubInstructions<F>
 {
     /// Numeric variable.
     type Num;
@@ -76,7 +74,7 @@ impl<F: FieldExt> ArithmeticChip<F> {
     /// Construct ArithmeticChip and return.
     pub fn construct(
         config: <Self as Chip<F>>::Config,
-        _loaded: <Self as Chip<F>>::Loaded
+        _loaded: <Self as Chip<F>>::Loaded,
     ) -> Self {
         Self {
             config,
@@ -154,7 +152,7 @@ impl<F: FieldExt> ArithmeticInstructions<F> for ArithmeticChip<F> {
                 region
                     .assign_advice(|| "private input", config.a, 0, || value)
                     .map(Number)
-            }
+            },
         )
     }
 

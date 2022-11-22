@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 use halo2_proofs::{
     arithmetic::FieldExt,
     circuit::{Chip, Layouter, Region},
-    plonk::{Advice, ConstraintSystem, Column, Error, Selector},
+    plonk::{Advice, Column, ConstraintSystem, Error, Selector},
     poly::Rotation,
 };
 
@@ -51,7 +51,7 @@ impl<F: FieldExt> AddChip<F> {
     /// Construct AddChip and return.
     pub fn construct(
         config: <Self as Chip<F>>::Config,
-        _loaded: <Self as Chip<F>>::Loaded
+        _loaded: <Self as Chip<F>>::Loaded,
     ) -> Self {
         Self {
             config,
@@ -91,7 +91,7 @@ impl<F: FieldExt> AddChip<F> {
                 // if `sel_add == 0`, then lhs, rhs and out are not constrained.
                 // if `sel_add != 0`, then `lhs + rhs = out` is contrained.
                 vec![sel_add * (lhs + rhs - out)]
-            }
+            },
         );
 
         // return config
@@ -157,7 +157,7 @@ impl<F: FieldExt> AddInstructions<F> for AddChip<F> {
                     .assign_advice(|| "lhs + rhs", config.a, 1, || c)
                     // map the result to `Number`
                     .map(Number)
-            }
+            },
         )
     }
 }
